@@ -1,7 +1,15 @@
 import React from 'react';
-import { Card, CardMedia, CardContent, Typography, CardActions } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
+import moment from "moment"
+import {
+  Delete,
+  MoreHoriz,
+  ThumbUp,
 
-const Post = () => {
+} from "@mui/icons-material";
+
+
+const Post = ({post, setCurrentId}) => {
   return (
     <Card
       sx={{
@@ -20,8 +28,8 @@ const Post = () => {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           backgroundBlendMode: 'darken',
         }}
-        image="https://via.placeholder.com/150" // Replace with actual image source
-        title="Image Title"
+        image={post.selectedFile} // Replace with actual image source
+        title={post.title}
       />
       <div
         sx={{
@@ -31,32 +39,52 @@ const Post = () => {
           color: 'white',
         }}
       >
-        <Typography variant="h6">Overlay Text</Typography>
+        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
+
       </div>
       <div
+
         sx={{
           position: 'absolute',
           top: '20px',
           right: '20px',
           color: 'white',
         }}
+     
       >
-        <Typography variant="h6">Overlay2 Text</Typography>
+      <Button style={{color:'white'}} size='small' onClick={()=>{}}>
+        <MoreHoriz fontSize="default"/>
+      </Button>
       </div>
+      <div>
+      <Typography
+          variant="body2"
+          color="textSecondary"
+          sx={{
+            padding: '0 16px',
+          }}
+        >
+          {post.tags.map((tag=> `#${tag} `))}
+        </Typography>
+      </div>
+      
       <CardContent
+      
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           margin: '20px',
         }}
       >
-        <Typography
+       <Typography
           variant="h5"
+          gutterBottom
           sx={{
             padding: '0 16px',
           }}
         >
-          Title
+          {post.message}
         </Typography>
       </CardContent>
       <CardActions
@@ -66,8 +94,16 @@ const Post = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Typography variant="button">Action 1</Typography>
-        <Typography variant="button">Action 2</Typography>
+        <Button size='small' color='primary' onClick={()=>{}}>
+            <ThumbUp fontSize='small'/>
+            Like
+            {post.likeCount}
+        </Button>
+        <Button size='small' color='primary' onClick={()=>{}}>
+            <Delete fontSize='small'/>
+            Delete
+           
+        </Button>
       </CardActions>
     </Card>
   );
