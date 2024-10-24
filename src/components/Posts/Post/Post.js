@@ -4,9 +4,11 @@ import { ThumbUp, Delete, MoreHoriz } from '@mui/icons-material';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
+import { deletePost } from '../../../actions/posts';
+
 const Post = ({ post, setCurrentId }) => {
 
-  const dispatch = useDispatch
+  const dispatch = useDispatch()
   return (
     <Card
       sx={{
@@ -75,7 +77,7 @@ const Post = ({ post, setCurrentId }) => {
           <ThumbUp fontSize="small" />
         Like {post.likeCount}
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
           <Delete fontSize="small" />
           Delete
         </Button>
