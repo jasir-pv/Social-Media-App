@@ -1,108 +1,83 @@
 import React from 'react';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
-import moment from "moment"
-import {
-  Delete,
-  MoreHoriz,
-  ThumbUp,
+import { ThumbUp, Delete, MoreHoriz } from '@mui/icons-material';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
 
-} from "@mui/icons-material";
+const Post = ({ post, setCurrentId }) => {
 
-
-const Post = ({post, setCurrentId}) => {
+  const dispatch = useDispatch
   return (
     <Card
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        maxWidth: 345, // You can adjust the width to fit your design
         borderRadius: '15px',
-        height: '100%',
+        marginBottom: '20px',
         position: 'relative',
+        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
       }}
     >
       <CardMedia
         sx={{
           height: 0,
-          paddingTop: '56.25%',
+          paddingTop: '56.25%', // 16:9 ratio
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           backgroundBlendMode: 'darken',
         }}
-        image={post.selectedFile} // Replace with actual image source
+        image={post.selectedFile || 'https://via.placeholder.com/150'}
         title={post.title}
       />
+      
       <div
-        sx={{
+        style={{
           position: 'absolute',
-          top: '20px',
-          left: '20px',
+          top: '10px',
+          left: '10px',
           color: 'white',
         }}
       >
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.title}</Typography>
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
-
       </div>
-      <div
 
-        sx={{
+      <div
+        style={{
           position: 'absolute',
-          top: '20px',
-          right: '20px',
+          top: '10px',
+          right: '10px',
           color: 'white',
         }}
-     
       >
-      <Button style={{color:'white'}} size='small' onClick={()=>{}}>
-        <MoreHoriz fontSize="default"/>
-      </Button>
+        <Button style={{ color: 'white' }} 
+        size="small"
+         onClick={() => setCurrentId(post._id)}>
+          <MoreHoriz fontSize="default" />
+        </Button>
       </div>
-      <div>
-      <Typography
-          variant="body2"
-          color="textSecondary"
-          sx={{
-            padding: '0 16px',
-          }}
-        >
-          {post.tags.map((tag=> `#${tag} `))}
+
+      <CardContent>
+        <Typography variant="body2" color="textSecondary">
+          {post.tags.map((tag) => `#${tag} `)}
         </Typography>
-      </div>
-      
-      <CardContent
-      
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '20px',
-        }}
-      >
-       <Typography
-          variant="h5"
-          gutterBottom
-          sx={{
-            padding: '0 16px',
-          }}
-        >
+        <Typography variant="h5" gutterBottom>
           {post.message}
         </Typography>
       </CardContent>
+
       <CardActions
         sx={{
-          padding: '0 16px 8px 16px',
           display: 'flex',
           justifyContent: 'space-between',
+          padding: '0 16px 8px 16px',
         }}
       >
-        <Button size='small' color='primary' onClick={()=>{}}>
-            <ThumbUp fontSize='small'/>
-            Like
-            {post.likeCount}
+        <Button size="small" color="primary" onClick={() => {}}>
+          <ThumbUp fontSize="small" />
+        Like {post.likeCount}
         </Button>
-        <Button size='small' color='primary' onClick={()=>{}}>
-            <Delete fontSize='small'/>
-            Delete
-           
+        <Button size="small" color="primary" onClick={() => {}}>
+          <Delete fontSize="small" />
+          Delete
         </Button>
       </CardActions>
     </Card>

@@ -1,30 +1,48 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import FileBase from "react-filebase64"
 import { TextField, Button, Paper, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
+import { useSelector } from 'react-redux';
+import { createPost,updatePost } from '../../actions/posts';
 
 
 const Form = ({currentId,setCurrentId}) => {
 
   const dispatch = useDispatch()
+  const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId): null);
     const [postData, setPostData] = useState({
       title: "",
       message: "", 
-      tags:"", 
-      selectedFile:""
+      tags:[""], 
+      selectedFile:"",
 
     })
 
+    useEffect(()=>{
+        if (post) setPostData(post)
+    },[post])
 
-    const handleSubmit = (e) =>{
+
+    const handleSubmit = async (e) =>{
        e.preventDefault()
 
-       dispatch(createPost(postData))
+       if(currentId){
+        dispatch(updatePost(currentId,postData))
+       }else{
+         dispatch(createPost(postData))
+       }
+
     }
 
-    const clear = ()=>{
 
+
+    const clear = ()=>{
+          setCurrentId(null)
+          setPostData({ title: "",
+      message: "", 
+      tags:[""], 
+      selectedFile:"",
+})
     }
 
 
@@ -45,7 +63,7 @@ const Form = ({currentId,setCurrentId}) => {
           justifyContent: 'center',
         }}
       >
-      <Typography variant='h6'> Creating Memory</Typography>
+      <Typography variant='h6' >{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
         <TextField
           name="title"
           variant="outlined"
@@ -79,14 +97,14 @@ const Form = ({currentId,setCurrentId}) => {
               setPostData({ ...postData, tags: e.target.value.split(",") })
             }
           />
-        <div
+        {/* <div
           sx={{
             width: '97%',
             margin: '10px 0', // Similar to your fileInput styling
           }}
         >
           <input type="file" />
-        </div>
+        </div> */}
   
         <div>
               <FileBase
