@@ -5,35 +5,35 @@
 // // import { Box } from '@mui/material';
 
 // const Posts = () => {
-//   const posts = useSelector((state) => state.posts);
+  //   const posts = useSelector((state) => state.posts);
 
-//   return (
-//     !posts.length ? <CircularProgress /> : (
-//       <Grid
-//       container 
-//       alignItems='stretch'
+  //   return (
+    //     !posts.length ? <CircularProgress /> : (
+      //       <Grid
+      //       container 
+      //       alignItems='stretch'
 //       spacing= {2}
 //       sx={{
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent:"center"
-//       }}
-//       >
-//        {posts.map((post)=> (
-//         <Grid key={post._id} item xs={12} sm={6}>
-//           <Post post={post}/>
-//         </Grid>
-//        ))} 
-//       </Grid>
-//     )
-   
-//   );
-
-// };
-
-
-// export default Posts;
-
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent:"center"
+  //       }}
+  //       >
+  //        {posts.map((post)=> (
+    //         <Grid key={post._id} item xs={12} sm={6}>
+    //           <Post post={post}/>
+    //         </Grid>
+    //        ))} 
+    //       </Grid>
+    //     )
+    
+    //   );
+    
+    // };
+    
+    
+    // export default Posts;
+    
 
 
 // -----------------------------------------------------
@@ -49,6 +49,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
 }));
+
 
 const Posts = ({ setCurrentId}) => {
   const posts = useSelector((state) => state.posts);
