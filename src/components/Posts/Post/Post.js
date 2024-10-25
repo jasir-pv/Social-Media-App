@@ -4,7 +4,7 @@ import { ThumbUp, Delete, MoreHoriz } from '@mui/icons-material';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
-import { deletePost } from '../../../actions/posts';
+import { deletePost, likePost } from '../../../actions/posts';
 
 const Post = ({ post, setCurrentId }) => {
 
@@ -73,7 +73,7 @@ const Post = ({ post, setCurrentId }) => {
           padding: '0 16px 8px 16px',
         }}
       >
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button size="small" color="primary" onClick={() => dispatch (likePost(post._id))}>
           <ThumbUp fontSize="small" />
         Like {post.likeCount}
         </Button>
