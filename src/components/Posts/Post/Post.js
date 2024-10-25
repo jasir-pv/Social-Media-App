@@ -14,6 +14,7 @@ const Post = ({ post, setCurrentId }) => {
       sx={{
         maxWidth: 345, // You can adjust the width to fit your design
         borderRadius: '15px',
+        height:400,
         marginBottom: '20px',
         position: 'relative',
         boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
@@ -38,7 +39,8 @@ const Post = ({ post, setCurrentId }) => {
           color: 'white',
         }}
       >
-        <Typography variant="h6">{post.title}</Typography>
+        
+        <Typography variant="h6">{post.creator}</Typography>
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
 
@@ -58,10 +60,17 @@ const Post = ({ post, setCurrentId }) => {
       </div>
 
       <CardContent>
-        <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag} `)}
+        <Typography variant="body2" color="textSecondary"> 
+          {post.tags.map((tag) => `#${tag} `)}   
         </Typography>
+
         <Typography variant="h5" gutterBottom>
+          {post.title}
+        </Typography>
+
+        {/* message */}
+
+        <Typography variant="body2" color='textSecondary' component="p" >
           {post.message}
         </Typography>
       </CardContent>

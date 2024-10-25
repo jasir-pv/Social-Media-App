@@ -66,6 +66,15 @@ const Form = ({currentId,setCurrentId}) => {
         }}
       >
       <Typography variant='h6' >{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
+      <TextField
+          name="creator"
+          variant="outlined"
+          label="Creator"
+          value={postData.creator}
+          onChange={(e) => setPostData({ ...postData,creator:e.target.value})}
+          fullWidth
+          sx={{ margin: 1 }} // This replaces `theme.spacing(1)`
+        />
         <TextField
           name="title"
           variant="outlined"
@@ -113,7 +122,10 @@ const Form = ({currentId,setCurrentId}) => {
                 type= "file"
                 multiple={false}
                 onDone={( {base64})=> setPostData({...postData,selectedFile:base64})}
-                
+                sx={{
+                   width: '97%',                 
+                   margin: '20px 0', // Similar to your fileInput styling
+          }}
               />
 
         </div>
@@ -123,7 +135,7 @@ const Form = ({currentId,setCurrentId}) => {
           size="large"
           type="submit"
           fullWidth
-          sx={{ marginBottom: 2 }} // Replaces `theme.spacing(1)` from `buttonSubmit`
+          sx={{ marginBottom: 2,marginTop:2 }} // Replaces `theme.spacing(1)` from `buttonSubmit`
         >
           Submit
         </Button>
