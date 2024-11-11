@@ -15,7 +15,6 @@ const Form = ({currentId,setCurrentId}) => {
       message: "", 
       tags:[""], 
       selectedFile:"",
-
     })
 
     useEffect(()=>{
