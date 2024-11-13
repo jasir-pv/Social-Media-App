@@ -1,0 +1,38 @@
+import React, { useEffect, useState } from 'react';
+import { Container, Grid, Grow } from '@mui/material';
+import Posts from './Posts/Posts';
+import Form from './Form/Form';
+import { useDispatch } from 'react-redux';
+import { getPosts } from '../actions/posts';
+
+
+
+
+const Home = () =>{
+const dispatch = useDispatch();
+const [ currentId, setCurrentId] = useState(null)
+
+// Fetch posts on component mount
+useEffect(() => {
+  dispatch(getPosts());
+}, [currentId,dispatch]);
+
+
+return(
+<Grow in>
+        <Container>
+          <Grid container justifyContent="space-between" alignItems="stretch" flexDirection='column-reverse' spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Posts currentId ={currentId} setCurrentId={setCurrentId}/>
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <Form currentId ={currentId} setCurrentId={setCurrentId}/>
+            </Grid>
+          </Grid>
+        </Container>
+      </Grow>
+
+)
+}
+
+export default Home;
