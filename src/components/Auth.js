@@ -105,13 +105,13 @@ const Auth = () => {
                 <Button onClick={switchMore}>
                   {isSignup? "Already hava an accound? Sign In" : "Dont't have an accound ? Sign Up"}
                 </Button>
-                <div>SEARCH</div>
+              
                 <div>
                   {isSignup ? (
                     <div>Logged In</div>
                   ):(
                     <GoogleLogin
-                      onSuccess={(response)=> console.log(response)}
+                      onSuccess={async (res)=> console.log(res)}
                       onError={()=> console.log('Error')}
                     />
                   )}
