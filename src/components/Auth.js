@@ -4,6 +4,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Input from './Input';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GoogleLogin,googleLogout } from '@react-oauth/google';
+import { useDispatch } from 'react-redux';
+import {jwtDecode} from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const theme = createTheme();
@@ -11,6 +16,10 @@ const theme = createTheme();
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false)
+
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
 
   const handleShowPassword = () => {
@@ -111,8 +120,18 @@ const Auth = () => {
                     <div>Logged In</div>
                   ):(
                     <GoogleLogin
-                      onSuccess={async (res)=> console.log(res)}
-                      onError={()=> console.log('Error')}
+                      onSuccess={ async (res) => {
+                        const decodedToken = jwtDecode(res?.credential); // Decode to get user info
+                        const token = res?.credential;
+
+                        try {
+                          dispatch({ type: 'AUTH', data: { result: decodedToken, token } });
+                          navigate('/')
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}
+                      onError={() => console.log('Error')}
                     />
                   )}
                 </div>

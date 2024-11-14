@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Typography, Toolbar, Avatar, Button, } from '@mui/material';
 import memories from '../images/memories.jpg';
-import {Link} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 
 const Navbar = () => {
 
 
-    const user= null
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+
+    console.log(user)
+
+    useEffect(()=> {
+      const token = user?.token
+      setUser(JSON.parse(localStorage.getItem('profile')))
+    }, [location])
+
+    const handleLogout = ()=>{
+        dispatch({ type: 'LOGOUT'})
+        navigate('/')
+        setUser(null)
+    }
 
   return (
     <div>
@@ -23,7 +40,7 @@ const Navbar = () => {
                       }}>
 
          <div>             
-        <Typography  variant="h2" align="center" component={Link} to='/'
+        <Typography  variant="h3" align="center" component={Link} to='/'
             sx={{
                 color: 'rgba(0,183,255, 1)',
             }}
@@ -42,10 +59,10 @@ const Navbar = () => {
         </div>
         <Toolbar>
             {user? (
-                <div>
-                    <Avatar src='user.result.imageUrl'></Avatar>
+                <div style={{display:'flex', alignItems:'center', gap:10,}}>
+                    <Avatar src={user.result.picture}></Avatar>
                     <Typography variant='h6'>{user.result.name}</Typography>
-                    <Button variant='contained' color='secondary'>Logout</Button>
+                    <Button variant='contained' color='secondary' onClick={handleLogout}>Logout</Button>
                 </div>
             ):(
                 <Button component={Link} to='/auth' variant='contained' color='primary'>Sign-in</Button>
