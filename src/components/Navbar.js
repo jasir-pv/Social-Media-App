@@ -3,6 +3,7 @@ import { AppBar, Typography, Toolbar, Avatar, Button, } from '@mui/material';
 import memories from '../images/memories.jpg';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
+import  {jwtDecode}  from 'jwt-decode';
 
 
 const Navbar = () => {
@@ -12,11 +13,23 @@ const Navbar = () => {
   const location = useLocation()
   const dispatch = useDispatch()
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  
+  const Logout = () =>{
+    dispatch({type: 'LOGOUT'})
+    navigate('/')
 
-    console.log(user)
+    setUser(null)
+  }
 
     useEffect(()=> {
       const token = user?.token
+
+      if(token){
+        const decodedToken = jwtDecode(token)
+
+        if(decodedToken.exp * 1000 < new Date().getTime()) Logout()
+      }
+
       setUser(JSON.parse(localStorage.getItem('profile')))
     }, [location])
 

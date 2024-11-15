@@ -9,8 +9,13 @@ import { createPost,updatePost } from '../../actions/posts';
 const Form = ({currentId,setCurrentId}) => {
 
   const dispatch = useDispatch()
-  const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId): null);
-    const [postData, setPostData] = useState({
+  const user = JSON.parse(localStorage.getItem('profile'))
+  const post = useSelector((state) => 
+    currentId && Array.isArray(state.posts)
+      ? state.posts.find((p) => p._id === currentId)
+      : null
+  );
+      const [postData, setPostData] = useState({
       title: "",
       message: "", 
       tags:[""], 
@@ -25,25 +30,33 @@ const Form = ({currentId,setCurrentId}) => {
     const handleSubmit = async (e) =>{
        e.preventDefault()
 
-       if(currentId){
-        dispatch(updatePost(currentId,postData))
-    
+       if(!currentId){
+        dispatch(createPost({ ...postData,name: user?.result.name}))
+        
        }else{
-         dispatch(createPost(postData))
-        }
-        clear()
-
+         dispatch(updatePost(currentId, {...postData, name: user?.result.name}))
+        
+        } clear()
     }
-
-
 
     const clear = ()=>{
           setCurrentId(null)
-          setPostData({ title: "",
+          setPostData({ 
+      title: "",
       message: "", 
       tags:[""], 
       selectedFile:"",
 })
+    }
+
+    if(!user?.result?.name){
+      return(
+        <Paper sx={{padding: 2}} >
+          <Typography varirant='h6' align= 'center'>
+                      Please sign into create your own memories and like other's memories.
+          </Typography>
+        </Paper>
+      )
     }
 
 
@@ -65,15 +78,7 @@ const Form = ({currentId,setCurrentId}) => {
         }}
       >
       <Typography variant='h6' >{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
-      <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          value={postData.creator}
-          onChange={(e) => setPostData({ ...postData,creator:e.target.value})}
-          fullWidth
-          sx={{ margin: 1 }} // This replaces `theme.spacing(1)`
-        />
+
         <TextField
           name="title"
           variant="outlined"
