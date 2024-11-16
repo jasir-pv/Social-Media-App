@@ -118,16 +118,20 @@ const Auth = () => {
               {isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
             <Grid container justify='flex-end'>
-                <Grid item>
-                <Button onClick={switchMore}>
-                  {isSignup? "Already hava an accound? Sign In" : "Dont't have an accound ? Sign Up"}
-                </Button>
               
-                <div>
+              
+              
+                <Button
+                   fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ margin: theme.spacing(3, 0, 2) }}
+                >
                   {isSignup ? (
                     <div>Logged In</div>
                   ):(
                     <GoogleLogin
+                     
                       onSuccess={ async (res) => {
                         const decodedToken = jwtDecode(res?.credential); // Decode to get user info
                         const token = res?.credential;
@@ -142,7 +146,11 @@ const Auth = () => {
                       onError={() => console.log('Error')}
                     />
                   )}
-                </div>
+                </Button>
+                <Grid item>
+                <Button onClick={switchMore}>
+                  {isSignup? "Already hava an accound? Sign In" : "Dont't have an accound ? Sign Up"}
+                </Button>
                 </Grid>
             </Grid>
           </form>
