@@ -28,7 +28,7 @@ const Post = ({ post, setCurrentId }) => {
       sx={{
         maxWidth: 345, // You can adjust the width to fit your design
         borderRadius: '15px',
-        height:400,
+        height:"100%",
         marginBottom: '20px',
         position: 'relative',
         boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
@@ -77,19 +77,28 @@ const Post = ({ post, setCurrentId }) => {
               )}
 
       <CardContent>
-        <Typography variant="body2" color="textSecondary"> 
-          {post.tags.map((tag) => `#${tag} `)}   
-        </Typography>
+      
 
         <Typography variant="h5" gutterBottom>
           {post.title}
         </Typography>
 
+          <Typography variant="body2" color="textSecondary" component='p'>   
+          {post.tags.map((tag) => `#${tag} `)}   
+        </Typography>
+
         {/* message */}
 
-        <Typography variant="body2" color='textSecondary' component="p" >
-          {post.message}
-        </Typography>
+        <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              noWrap
+            >
+              {post.message.length > 100
+                ? `${post.message.substring(0, 100)}...`
+                : post.message}
+            </Typography>
       </CardContent>
 
       <CardActions
