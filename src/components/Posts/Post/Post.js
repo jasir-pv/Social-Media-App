@@ -1,28 +1,46 @@
-import React from 'react';
-import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardMedia, CardContent, Typography, CardActions, Button, ButtonBase, Box } from '@mui/material';
 import { ThumbUp, Delete, MoreHoriz, ThumbUpAlt, ThumbUpAltOutlined } from '@mui/icons-material';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
 import { deletePost, likePost } from '../../../actions/posts';
+import { useNavigate } from 'react-router-dom';
 
 const Post = ({ post, setCurrentId }) => {
 
+  const naviagate = useNavigate()
   const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem('profile'))
+  const [likes, setLikes] = useState(post?.likes)
+  const userId = user?.result.googleId || user?.result?._id
+  const hasLikedPost = likes.find((like) => like === userId)
+
+  const handleLike  = async ()=>{
+        dispatch(likePost(post._id));
+        if(hasLikedPost) {
+            setLikes(likes.filter((id) => id !== userId))
+        }else{
+            setLikes([...likes, userId])
+        }
+  }
 
 
   const Likes  = () =>{
-    if (post.likes.length > 0){
-      return post.likes.find((like) => like ===(user?.result?.googleId || user?.result?._id))
+    if (likes.length > 0){
+      return likes.find((like) => like ===(user?.result?.googleId || user?.result?._id))
         ? (
-          <> <ThumbUpAlt fontSize='small' /> &nbsp;{ post.likes.length > 2 ? `You and ${post.likes.length -1 } others` : `${post.likes.length} likes${post.likes.length > 1 ? 's' :''}`} </>
+          <> <ThumbUpAlt fontSize='small' /> &nbsp;{ likes.length > 2 ? `You and ${likes.length -1 } others` : `${likes.length} likes${likes.length > 1 ? 's' :''}`} </>
         ) : (
-          <> <ThumbUpAltOutlined fontSize='small' />  &nbsp; {post.likes.length} {post.likes.length ===1 ? 'Like': 'Likes'} </>
+          <> <ThumbUpAltOutlined fontSize='small' />  &nbsp; {likes.length} {likes.length ===1 ? 'Like': 'Likes'} </>
         )
     }
   }
 
+  const openPost = () =>{
+      naviagate( `/posts/${post._id}`)
+  }
+ 
   return (
     <Card raised elevation={6}
       sx={{
@@ -34,9 +52,17 @@ const Post = ({ post, setCurrentId }) => {
         boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
       }}
     >
+    <ButtonBase component='div'  onClick={openPost} 
+    sx={{
+      display:'block',
+      textAlign:'initial'
+    }}
+    >
+     <Box sx={{ position: "relative" }}></Box>
       <CardMedia
         sx={{
           height: 0,
+          objectFit:'cover',
           paddingTop: '56.25%', // 16:9 ratio
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           backgroundBlendMode: 'darken',
@@ -44,7 +70,7 @@ const Post = ({ post, setCurrentId }) => {
         image={post.selectedFile || 'https://via.placeholder.com/150'}
         title={post.title}
       />
-      
+        
       <div
         style={{
           position: 'absolute',
@@ -100,7 +126,7 @@ const Post = ({ post, setCurrentId }) => {
                 : post.message}
             </Typography>
       </CardContent>
-
+      </ButtonBase>
       <CardActions
         sx={{
           display: 'flex',
@@ -108,7 +134,7 @@ const Post = ({ post, setCurrentId }) => {
           padding: '0 16px 8px 16px',
         }}
       >
-        <Button size="small" color="primary" disabled={!user?.result } onClick={() => dispatch (likePost(post._id))}>
+        <Button size="small" color="primary" disabled={!user?.result } onClick={handleLike}>
           <Likes />
         </Button>
         {(user?.result?.googleId === post?.creator || user?.result._id === post?.creator) &&(

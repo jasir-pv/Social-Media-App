@@ -14,10 +14,12 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 
 
 const Posts = ({ setCurrentId}) => {
-  const {posts} = useSelector((state) => state.posts);
+  const {posts, isLoading} = useSelector((state) => state.posts);
+
+  if(!posts.length && !isLoading) return "No posts"
 
   return (
-    !posts?.length ? <CircularProgress /> : (
+    isLoading ? <CircularProgress /> : (
       <StyledGrid
         container
         spacing={2}

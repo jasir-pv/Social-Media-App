@@ -61,7 +61,7 @@ const Form = ({currentId,setCurrentId}) => {
 
 
   return (
-    <Paper
+    <Paper elevation={6}
       sx={{
         padding: 2, // This replaces `theme.spacing(2)` from your previous styles
       }}
