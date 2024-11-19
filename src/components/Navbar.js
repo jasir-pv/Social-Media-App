@@ -60,15 +60,15 @@ const Navbar = () => {
         >
           Memories
         </Typography>
-        <img
+        {/* <img
           src={memories}
 
           alt="memories"
-          height="60"
-          width="60"
+          height="45"
+          width="45"
 
         style={{ marginLeft: '15px',}}
-        /> 
+        />  */}
         </div>
         <Toolbar>
             {user? (

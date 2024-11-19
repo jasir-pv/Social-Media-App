@@ -24,7 +24,7 @@ const Post = ({ post, setCurrentId }) => {
   }
 
   return (
-    <Card
+    <Card raised elevation={6}
       sx={{
         maxWidth: 345, // You can adjust the width to fit your design
         borderRadius: '15px',
